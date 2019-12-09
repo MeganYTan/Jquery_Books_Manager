@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>	
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title>jQueryHomework</title>
+        <script src = "./js/scripts.js"></script>
+
+        <style>
+            .headerUnsort{
+                position: relative;
+            }
+            .headerUnsort:before,
+            .headerUnsort:after {
+                border: 4px solid transparent;
+                content: "";
+                display: block;
+                height: 0;
+                right: 5px;
+                top: 50%;
+                position: absolute;
+                width: 0;
+            }
+
+            .headerUnsort:before {
+                border-bottom-color: silver;
+                margin-top: -9px;
+            }
+            .headerUnsort:after {
+                border-top-color: silver;
+                margin-top: 1px;
+            }
+
+            .headerSortDown:after,
+            .headerSortUp:after
+            {
+              content: ' ';
+              position: relative;
+              left: 10px;
+              border: 5px solid transparent;
+            }
+
+            .headerSortDown:after {
+              top: 15px;
+              border-top-color: silver;
+            }
+
+            .headerSortUp:after {
+              bottom: 13px;
+              border-bottom-color: silver;
+            }
+
+            </style>
+
+    </head>
+    <body class = "container">
+        
+        <h1>Books</h1>
+        <div class = "row">
+        
+            <div class = "col">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <th class="headerUnsort">ID</th>
+                            <th class="headerUnsort">Name</th>
+                            <th class="headerUnsort">Price</th>
+                            <th class="headerUnsort">Author</th>
+                            <th class="headerUnsort">Operation</th>
+                        </thead>
+                        <tbody>
+                            <td>Test</td>
+                            <td>Test</td>
+                            <td>Test</td>
+                            <td>Test</td>
+                            <td>
+                                <a href = "#" id="edit-book" class = "mr-3">Edit</a>
+                                <a href = "#" >Delete</a>
+                            </td>                           
+                        </tbody>
+                        
+                    </table>
+                </div>  
+                <div class = "col">
+                    <div class = "row pb-3">
+                        <div class = "col">
+                            <label>Filter</label>
+                        </div>
+                        <div class = "col">
+                            <select id="filter-field">
+                            <option>Name</option>
+                            <option>Author</option>
+                            <option>Min Price</option>
+                            <option>Max Price</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+                    <div class = "row">
+                        <div class = "col">
+                            <input type="text" id="filter-content">
+                        </div>
+                        <div class = "col">
+                            <button class="btn btn-outline-primary mt-0 pt-1 pb-1" id="filter-button">Filter</button>
+                        </div>
+                        
+                
+                    </div>  
+                </div>
+            
+        </div>
+        <div class="row">
+            <div class = "col-sm-12 col-md-6">
+                <div class = "card p-3">
+                    <h2>Add Book</h2>
+                    <form action="">
+                        <div class="form-group row">
+                            <label for="add-id" class="col-3">ID</label>
+                            <div class = "col-6">
+                                <input type="number" class = "form-control" id = "add-id" required/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="add-name" class="col-3">Name</label>
+                            <div class = "col-6">
+                                <input type="text" class = "form-control" id = "add-name" required/>
+                            </div>
+                        </div>
+
+                         <div class="form-group row">
+                            <label for="add-price" class="col-3">Price</label>
+                            <div class = "col-6">
+                                <input type="number" class = "form-control" id = "add-price" required/>
+                            </div>
+                        </div>
+
+                         <div class="form-group row">
+                            <label for="add-author" class="col-3">Author</label>
+                            <div class = "col-6">
+                                <input type="text" class = "form-control" id = "add-author" required/>
+                            </div>
+                        </div>
+                        <button class = "btn btn-outline-primary" id="add-submit">Submit</button>
+                    </form>
+
+                </div>
+            </div>
+            <div class = "col-sm-12 col-md-6">
+                <div class = "card p-3">
+                    <h2>Edit Book</h2>
+                    <form>
+                        <div class="form-group row">
+                            <label for="edit-id" class="col-3">ID</label>
+                            <div class = "col-6">
+                                <input type="number" class = "form-control" id = "edit-id" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="edit-name" class="col-3">Name</label>
+                            <div class = "col-6">
+                                <input type="text" class = "form-control" id = "edit-name" required>
+                            </div>
+                        </div>
+
+                         <div class="form-group row">
+                            <label for="edit-price" class="col-3">Price</label>
+                            <div class = "col-6">
+                                <input type="number" class = "form-control" id = "edit-price" 
+                                required>
+                            </div>
+                        </div>
+
+                         <div class="form-group row">
+                            <label for="edit-author" class="col-3">Author</label>
+                            <div class = "col-6">
+                                <input type="text" class = "form-control" id = "edit-author" required>
+                            </div>
+                        </div>
+                        <button class = "btn btn-outline-primary" id="edit-submit">Submit</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+                
+            
+    </body>
+</html>
