@@ -4,38 +4,31 @@ var Books = [],
 	priceSorted=false,
 	authorSorted=false;
 $(document).ready(function(){
-	//1. load the table
+	//load the table
 	getBooks()//return type is deferred object (jquery version of promise)
 		.then(function getSuccess(res){
 			Books=res;
 			refreshTable(res);
 		})
 		.catch(function getFailed(err){
-			console.log('Failed to get users');
+			console.log('Failed to get books');
 	});
-	//2. add book -- post request
-	$('#add-submit').click(function(event){
-		event.preventDefault();
-		var book = {};
-		book.id = $('#add-id').val();
-		book.name = $('#add-name').val();
-		book.price = $('#add-price').val();
-		book.author = $('#add-author').val();
-		addBook(book)
-			.then(function (res){
-				// console.log('book reset from #add-submit');
-				Books=res;//this sorts it by id
-				//push instead of refresh
-				appendBook(book);
-				//empty the values
-				$('#add-id').val('');
-				$('#add-name').val('');
-				$('#add-price').val('');
-				$('#add-author').val('');
-			})
-			.catch();
-
-	});
+	//disable the buttons
+	document.addEventListener('keyup',function(event){
+		if($('#add-id').val()=='' || $('#add-name').val()=='' || $('#add-price').val()=='' || $('#add-author').val()==''){
+			$('#add-submit').attr('disabled', true);
+		}
+		if($('#add-id').val()!='' && $('#add-name').val()!='' && $('#add-price').val()!='' && $('#add-author').val()!=''){
+			$('#add-submit').attr('disabled', false);
+		}
+		if($('#edit-id').val()=='' || $('#edit-name').val()=='' || $('#edit-price').val()=='' || $('#edit-author').val()==''){
+			$('#edit-submit').attr('disabled', true);
+		}
+		if($('#edit-id').val()!='' && $('#edit-name').val()!='' && $('#edit-price').val()!='' && $('#edit-author').val()!=''){
+			$('#edit-submit').attr('disabled', false);
+		}
+		
+	})
 	//3. edit book -- form loading
 	//4. delete book -- delete request
 	document.addEventListener('click',function(event){
@@ -48,11 +41,12 @@ $(document).ready(function(){
 			book.name = tableRow.children('.table-name').html();
 			book.price = tableRow.children('.table-price').html();
 			book.author = tableRow.children('.table-author').html();
-			//load the form
+			//load the form and enable button
 			$('#edit-id').val(book.id);
 			$('#edit-name').val(book.name);
 			$('#edit-price').val(book.price);
 			$('#edit-author').val(book.author);
+			$('#edit-submit').attr('disabled',false);
 		}else if(event.target.id == 'delete-book'){
 			var tableRow = $(event.target.parentElement.parentElement);
 			//get the book
@@ -70,31 +64,7 @@ $(document).ready(function(){
 				})
 				.catch();
 		}
-	})
-	//edit book -- form submission
-	$('#edit-submit').click(function(){
-		event.preventDefault();
-		var book = {};
-		book.id = $('#edit-id').val();
-		book.name = $('#edit-name').val();
-		book.price = $('#edit-price').val();
-		book.author = $('#edit-author').val();
-		//edit the book in db
-			editBook(book)
-				.then(function (res){
-					// console.log('books refresh from edit-submit');
-					Books=res;
-					// console.log('from edit',Books);
-					refreshTable(res);
-					//empty the values
-					$('#edit-id').val('');
-					$('#edit-name').val('');
-					$('#edit-price').val('');
-					$('#edit-author').val('');
-				})
-				.catch();
-	})
-
+	});
 	//5. filter
 	$('#filter-button').click(function(){
 		//get Books
@@ -254,4 +224,67 @@ function deleteBook(book){
 		contentType:'application/json; charset=UTF-8'
 	});
 }
+//add book form submit
+function submitAdd(){
+	event.preventDefault();
+		var book = {};
+		book.id = $('#add-id').val();
+		book.name = $('#add-name').val();
+		book.price = $('#add-price').val();
+		book.author = $('#add-author').val();
 
+		if(book.price<0){
+			alert('Please enter a positive price');
+		}else if(Books.find(function(b){
+			return b.id==book.id;
+		})){
+			alert('Id must be unique');
+		}else{
+			addBook(book)
+			.then(function (res){
+				// console.log('book reset from #add-submit');
+				Books=res;//this sorts it by id
+				//push instead of refresh
+				appendBook(book);
+				//empty the values and disable button
+				$('#add-id').val('');
+				$('#add-name').val('');
+				$('#add-price').val('');
+				$('#add-author').val('');
+				$('#add-submit').attr('disabled', true);
+			})
+			.catch();
+		}
+		
+	return false;
+}
+
+//edit book form submit
+function submitEdit(){
+	event.preventDefault();
+		var book = {};
+		book.id = $('#edit-id').val();
+		book.name = $('#edit-name').val();
+		book.price = $('#edit-price').val();
+		book.author = $('#edit-author').val();
+		//edit the book in db
+		if(book.price<0){
+			alert('Please enter a positive price');
+		}else{
+			editBook(book)
+				.then(function (res){
+					// console.log('books refresh from edit-submit');
+					Books=res;
+					// console.log('from edit',Books);
+					refreshTable(res);
+					//empty the values
+					$('#edit-id').val('');
+					$('#edit-name').val('');
+					$('#edit-price').val('');
+					$('#edit-author').val('');
+					$('#edit-submit').attr('disabled',true);
+				})
+				.catch();
+		}
+	return false;
+}

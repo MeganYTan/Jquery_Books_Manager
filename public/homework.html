@@ -100,7 +100,7 @@
                             <input type="text" id="filter-content">
                         </div>
                         <div class = "col">
-                            <button class="btn btn-outline-primary mt-0 pt-1 pb-1" id="filter-button">Filter</button>
+                            <button class="btn btn-primary mt-0 pt-1 pb-1" id="filter-button">Filter</button>
                         </div>
                         
                 
@@ -112,7 +112,7 @@
             <div class = "col-sm-12 col-md-6">
                 <div class = "card p-3">
                     <h2>Add Book</h2>
-                    <form action="">
+                    <form onsubmit="return submitAdd()">
                         <div class="form-group row">
                             <label for="add-id" class="col-3">ID</label>
                             <div class = "col-6">
@@ -139,7 +139,7 @@
                                 <input type="text" class = "form-control" id = "add-author" required/>
                             </div>
                         </div>
-                        <button class = "btn btn-outline-primary" id="add-submit">Submit</button>
+                        <button class = "btn btn-primary form-button" id="add-submit" disabled="true">Submit</button>
                     </form>
 
                 </div>
@@ -147,7 +147,7 @@
             <div class = "col-sm-12 col-md-6">
                 <div class = "card p-3">
                     <h2>Edit Book</h2>
-                    <form>
+                    <form onsubmit="return submitEdit()">
                         <div class="form-group row">
                             <label for="edit-id" class="col-3">ID</label>
                             <div class = "col-6">
@@ -175,7 +175,7 @@
                                 <input type="text" class = "form-control" id = "edit-author" required>
                             </div>
                         </div>
-                        <button class = "btn btn-outline-primary" id="edit-submit">Submit</button>
+                        <button class = "btn btn-primary form-button" id="edit-submit" disabled="true">Submit</button>
                     </form>
 
                 </div>
